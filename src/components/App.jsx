@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import Feedbacks from './Feedbacks/Feedbacks';
+import Statistics from './Statistics';
+import FeedbackOptions from './FeedbackOptions';
+import Notification from './Notification';
 
 class App extends Component {
   state = {
@@ -9,26 +11,10 @@ class App extends Component {
   };
 
 
-  handleBtnGood = () => {
+  onButtonClick = (option) => {
     this.setState((prevState) => {
       return {
-        good: prevState.good + 1
-      }
-    });
-  }
-
-  handleBtnNeutral = () => {
-    this.setState((prevState) => {
-      return {
-        neutral: prevState.neutral + 1
-      }
-    });
-  }
-
-  handleBtnBad = () => {
-    this.setState((prevState) => {
-      return {
-        bad: prevState.bad + 1
+        [option]: prevState[option] + 1
       }
     });
   }
@@ -46,19 +32,25 @@ class App extends Component {
 
  
   render() {
+    const { good, neutral, bad } = this.state;
+    console.log(Object.keys(this.state))
+
     return (
       <div>
         <h2>Please leave feedback</h2>
-        <button type="button" onClick={this.handleBtnGood}>Good</button>
-        <button type="button" onClick={this.handleBtnNeutral}>Neutral</button>
-        <button type="button" onClick={this.handleBtnBad}>Bad</button>
+        <FeedbackOptions options={Object.keys(this.state)}
+            onButtonClick={this.onButtonClick}/>
         <h1>Statistics</h1>
-        <span>Good: {this.state.good}<br></br></span>
-        <span>Neutral: {this.state.neutral}<br></br></span>
-        <span>Bad: {this.state.bad}<br></br></span>
-        <span>Total: {this.countTotalFeedback()}<br></br></span>
-        <span>Positive feedback: {this.countPositiveFeedbackPercentage()}%</span>
-      <Feedbacks />
+        {this.countTotalFeedback() > 0 ? (
+        <Statistics 
+        good={good} 
+        neutral={neutral} 
+        bad={bad}  
+        total={this.countTotalFeedback()}
+        positivePercentage={this.countPositiveFeedbackPercentage()}/>
+        ) : (
+          <Notification message="There is no feedback" />
+        )}
       </div>
     );
   }
