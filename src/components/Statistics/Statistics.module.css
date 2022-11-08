@@ -1,0 +1,17 @@
+.statList {
+    display: block;
+    list-style: none;
+    text-align: center;
+}
+
+.statText {
+    font-family: Raleway, sans-serif;
+    font-size: 25px;
+    color: black;
+}
+
+.statItem {
+    font-family: Raleway, sans-serif;
+    font-size: 20px;
+    color: gray;
+}
